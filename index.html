@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>vue-range-slider demo</title>
+  <link rel="stylesheet" href="./dist/vue-range-slider.css">
+  <style>
+    #app {
+      padding:40px 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <vue-range-slider v-model="value1"></vue-range-slider>
+    <vue-range-slider v-model="value2"></vue-range-slider>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+  <script src="./dist/vue-range-slider.min.js"></script>
+  <script>
+    new Vue({
+      data() {
+        return {
+          value1: 0,
+          value2: [0, 20]
+        }
+      }
+    }).$mount('#app')
+  </script>
+</body>
+</html>

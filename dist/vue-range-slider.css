@@ -1,0 +1,220 @@
+.vue-range-slider.slider-component {
+  position: relative;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.vue-range-slider.slider-component .slider {
+  position: relative;
+  display: block;
+  border-radius: 15px;
+  background-color: #ccc;
+}
+.vue-range-slider.slider-component .slider::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.vue-range-slider.slider-component .slider .slider-dot {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #fff;
+  -webkit-box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,0.32);
+          box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,0.32);
+  -webkit-transition: all 0s;
+  transition: all 0s;
+  will-change: transform;
+  cursor: pointer;
+  z-index: 5;
+}
+.vue-range-slider.slider-component .slider .slider-dot.slider-dot-focus {
+  -webkit-box-shadow: 0 0 2px 1px #3498db;
+          box-shadow: 0 0 2px 1px #3498db;
+}
+.vue-range-slider.slider-component .slider .slider-dot.slider-dot-dragging {
+  z-index: 5;
+}
+.vue-range-slider.slider-component .slider .slider-dot.slider-dot-disabled {
+  z-index: 4;
+}
+.vue-range-slider.slider-component .slider .slider-dot.slider-hover:hover .slider-tooltip-wrap {
+  display: block;
+}
+.vue-range-slider.slider-component .slider .slider-dot.slider-always .slider-tooltip-wrap {
+  display: block !important;
+}
+.vue-range-slider.slider-component .slider .slider-process {
+  position: absolute;
+  border-radius: 15px;
+  background-color: #3498db;
+  z-index: 1;
+}
+.vue-range-slider.slider-component .slider .slider-process.slider-process-draggable {
+  cursor: pointer;
+  z-index: 3;
+}
+.vue-range-slider.slider-component .slider .slider-input {
+  position: absolute;
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+.vue-range-slider.slider-component.slider-horizontal .slider-dot {
+  left: 0;
+}
+.vue-range-slider.slider-component.slider-horizontal .slider-process {
+  width: 0;
+  height: 100%;
+  top: 0;
+  left: 0;
+  will-change: width;
+}
+.vue-range-slider.slider-component.slider-vertical .slider-dot {
+  bottom: 0;
+}
+.vue-range-slider.slider-component.slider-vertical .slider-process {
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  left: 0;
+  will-change: height;
+}
+.vue-range-slider.slider-component.slider-horizontal-reverse .slider-dot {
+  right: 0;
+}
+.vue-range-slider.slider-component.slider-horizontal-reverse .slider-process {
+  width: 0;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+.vue-range-slider.slider-component.slider-vertical-reverse .slider-dot {
+  top: 0;
+}
+.vue-range-slider.slider-component.slider-vertical-reverse .slider-process {
+  width: 100%;
+  height: 0;
+  top: 0;
+  left: 0;
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap {
+  display: none;
+  position: absolute;
+  z-index: 9;
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap.merged-tooltip {
+  display: block;
+  visibility: hidden;
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-top {
+  top: -9px;
+  left: 50%;
+  -webkit-transform: translate(-50%, -100%);
+          transform: translate(-50%, -100%);
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-top .slider-tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border: 6px solid transparent 0;
+  border-top-color: inherit;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-bottom {
+  bottom: -9px;
+  left: 50%;
+  -webkit-transform: translate(-50%, 100%);
+          transform: translate(-50%, 100%);
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-bottom .slider-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border: 6px solid transparent 0;
+  border-bottom-color: inherit;
+  -webkit-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-left {
+  top: 50%;
+  left: -9px;
+  -webkit-transform: translate(-100%, -50%);
+          transform: translate(-100%, -50%);
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-left .slider-tooltip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border: 6px solid transparent 0;
+  border-left-color: inherit;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-right {
+  top: 50%;
+  right: -9px;
+  -webkit-transform: translate(100%, -50%);
+          transform: translate(100%, -50%);
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap.slider-tooltip-right .slider-tooltip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border: 6px solid transparent 0;
+  border-right-color: inherit;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap.merged-tooltip {
+  display: block;
+  visibility: hidden;
+}
+.vue-range-slider.slider-component .slider-tooltip-wrap .slider-tooltip {
+  display: block;
+  font-size: 14px;
+  white-space: nowrap;
+  padding: 2px 5px;
+  min-width: 20px;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  border: 1px solid #3498db;
+  background-color: #3498db;
+}
+.vue-range-slider.slider-component.slider-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.vue-range-slider.slider-component.slider-disabled .slider-dot {
+  cursor: not-allowed;
+}
+.vue-range-slider.slider-component.slider-has-label {
+  margin-bottom: 15px;
+}
+
+/*# sourceMappingURL=vue-range-slider.css.map */

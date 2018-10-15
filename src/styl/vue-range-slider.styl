@@ -1,0 +1,176 @@
+.vue-range-slider
+  &.slider-component
+    position: relative
+    box-sizing: border-box
+    user-select: none
+    .slider
+      position: relative
+      display: block
+      border-radius: 15px
+      background-color: #ccc
+      &::after
+        content: ''
+        position: absolute
+        left: 0
+        top: 0
+        width: 100%
+        height: 100%
+        z-index: 2
+      .slider-dot
+        position: absolute
+        border-radius: 50%
+        background-color: #fff
+        box-shadow: 0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32)
+        transition: all 0s
+        will-change: transform
+        cursor: pointer
+        z-index: 5
+        &.slider-dot-focus
+          box-shadow: 0 0 2px 1px #3498db
+        &.slider-dot-dragging
+          z-index: 5
+        &.slider-dot-disabled
+          z-index: 4
+        &.slider-hover
+          &:hover
+            .slider-tooltip-wrap
+              display: block
+        &.slider-always
+          .slider-tooltip-wrap
+            display: block!important
+      .slider-process
+        position: absolute
+        border-radius: 15px
+        background-color: #3498db
+        z-index: 1
+        &.slider-process-draggable
+          cursor: pointer
+          z-index: 3
+      .slider-input
+        position: absolute
+        overflow: hidden
+        height: 1px
+        width: 1px
+        clip: rect(1px, 1px, 1px, 1px)
+    &.slider-horizontal
+      .slider-dot
+        left:0
+      .slider-process
+        width: 0
+        height: 100%
+        top: 0
+        left: 0
+        will-change: width
+    &.slider-vertical
+      .slider-dot
+        bottom:0
+      .slider-process
+        width: 100%
+        height: 0
+        bottom: 0
+        left: 0
+        will-change: height
+    &.slider-horizontal-reverse
+      .slider-dot
+        right:0
+      .slider-process
+        width: 0
+        height: 100%
+        top: 0
+        right: 0
+    &.slider-vertical-reverse
+      .slider-dot
+        top:0
+      .slider-process
+        width: 100%
+        height: 0
+        top: 0
+        left: 0
+    .slider-tooltip-wrap
+      display: none
+      position: absolute
+      z-index: 9
+      &.merged-tooltip
+        display:block
+        visibility:hidden
+      &.slider-tooltip-top
+        top: -9px
+        left: 50%
+        transform: translate(-50%, -100%)
+        .slider-tooltip::before
+          content: ''
+          position: absolute
+          bottom: -10px
+          left: 50%
+          width: 0
+          height: 0
+          border: 5px solid transparent
+          border: 6px solid transparent\0
+          border-top-color: inherit
+          transform: translate(-50%, 0)
+      &.slider-tooltip-bottom
+        bottom: -9px;
+        left: 50%;
+        transform: translate(-50%, 100%)
+        .slider-tooltip::before
+          content: ''
+          position: absolute
+          top: -10px
+          left: 50%
+          width: 0
+          height: 0
+          border: 5px solid transparent
+          border: 6px solid transparent\0
+          border-bottom-color: inherit
+          transform: translate(-50%, 0)
+      &.slider-tooltip-left
+        top: 50%
+        left: -9px
+        transform: translate(-100%, -50%)
+        .slider-tooltip::before
+          content: ''
+          position: absolute
+          top: 50%
+          right: -10px
+          width: 0
+          height: 0
+          border: 5px solid transparent
+          border: 6px solid transparent\0
+          border-left-color: inherit
+          transform: translate(0, -50%)
+      &.slider-tooltip-right
+        top: 50%
+        right: -9px
+        transform: translate(100%, -50%)
+        .slider-tooltip::before
+          content: ''
+          position: absolute
+          top: 50%
+          left: -10px
+          width: 0
+          height: 0
+          border: 5px solid transparent
+          border: 6px solid transparent\0
+          border-right-color: inherit
+          transform: translate(0, -50%)
+      &.merged-tooltip
+        display: block
+        visibility: hidden
+      .slider-tooltip
+        display: block
+        font-size: 14px
+        white-space: nowrap
+        padding: 2px 5px
+        min-width: 20px
+        text-align: center
+        color: #fff
+        border-radius: 5px
+        border: 1px solid #3498db
+        background-color: #3498db
+    &.slider-disabled
+      opacity: .5
+      cursor: not-allowed
+      .slider-dot
+        cursor: not-allowed
+    &.slider-has-label
+      margin-bottom: 15px
