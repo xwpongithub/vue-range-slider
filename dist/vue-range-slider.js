@@ -16,7 +16,6 @@
       return Math.round(value * r) / r;
     };
   }();
-
   var isMobile = function () {
     var userAgentInfo = navigator.userAgent;
     var agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
@@ -31,7 +30,6 @@
 
     return flag;
   }();
-
   function isArray(input) {
     if (Array.prototype.isArray) {
       return Array.isArray(input);
@@ -39,7 +37,6 @@
 
     return input instanceof Array || Object.prototype.toString.call(input) === '[object Array]';
   }
-
   function isDiff(a, b) {
     if (Object.prototype.toString.call(a) !== Object.prototype.toString.call(b)) {
       return true;
@@ -51,7 +48,6 @@
 
     return a !== b;
   }
-
   var elementStyle = document.createElement('div').style;
 
   var vendor = function () {
@@ -87,14 +83,12 @@
 
     return vendor + style.charAt(0).toUpperCase() + style.substr(1);
   }
-
   function addEvent(el, type, fn, capture) {
     el.addEventListener(type, fn, {
       passive: false,
       capture: !!capture
     });
   }
-
   function removeEvent(el, type, fn, capture) {
     el.removeEventListener(type, fn, {
       passive: false,
