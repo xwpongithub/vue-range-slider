@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "A range slider component based on vue (Vue滑块组件).",
   "main": "dist/vue-range-slider.js",
-  "module": "dist/vue-range-slider.css",
-  "keywords": ["javascript", "rollup", "vuejs"],
+  "module": "dist/vue-range-slider.esm.js",
+  "keywords": [
+    "javascript",
+    "rollup",
+    "vuejs"
+  ],
   "author": "xwpongithub",
   "license": "MIT",
   "bugs": {
