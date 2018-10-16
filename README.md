@@ -28,8 +28,8 @@ npm install vue-range-component --save
 #### Direct <script> include
 
 ```html
-  <link rel="stylesheet" href="https://unpkg.com/vue-range-component@1.0.2/dist/vue-range-slider.min.css">
-  <script src="https://unpkg.com/vue-range-component@1.0.2/dist/vue-range-slider.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/vue-range-component@1.0.3/dist/vue-range-slider.min.css">
+  <script src="https://unpkg.com/vue-range-component@1.0.3/dist/vue-range-slider.min.js"></script>
 ```
 
 #### Use in vue project
