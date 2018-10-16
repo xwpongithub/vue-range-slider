@@ -1,5 +1,5 @@
 /*!
- * vue-range-slider v1.0.1
+ * vue-range-slider v1.0.2
  * (c) 2016-2018 xwpongithub
  * Released under the MIT License.
  */
@@ -1267,7 +1267,6 @@
             removeEvent(this.$refs.dot, EVENT_TOUCH_START, this._start);
           }
         } else {
-          removeEvent(this.$refs.dot, EVENT_MOUSE_DOWN, this._start);
           removeEvent(this.$refs.process, EVENT_MOUSE_DOWN, this.processStartFn);
           removeEvent(document, EVENT_MOUSE_DOWN, this.blurSlider);
           removeEvent(document, EVENT_MOUSE_MOVE, this._move);
@@ -1374,7 +1373,7 @@
     }
   };
 
-  var version = "1.0.1";
+  var version = "1.0.2";
 
   Slider.version = version;
 
