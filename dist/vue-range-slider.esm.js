@@ -1,5 +1,5 @@
 /*!
- * vue-range-slider v1.0.2
+ * vue-range-slider v1.0.3
  * (c) 2016-2018 xwpongithub
  * Released under the MIT License.
  */
@@ -1367,7 +1367,7 @@ var Slider = {
   }
 };
 
-var version = "1.0.2";
+var version = "1.0.3";
 
 Slider.version = version;
 
