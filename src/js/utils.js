@@ -5,7 +5,7 @@ export const roundToDPR = (function () {
 })()
 
 export const isMobile = (() => {
-  const userAgentInfo = navigator.userAgent
+  const userAgentInfo = navigator.userAgent.toLowerCase()
   const agents = ["Android", "iPhone",
     "SymbianOS", "Windows Phone",
     "iPad", "iPod"]

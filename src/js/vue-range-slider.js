@@ -14,6 +14,8 @@ const EVENT_MOUSE_MOVE = 'mousemove'
 const EVENT_MOUSE_UP = 'mouseup'
 const EVENT_MOUSE_LEAVE = 'mouseleave'
 
+const EVENT_KEY_DOWN = 'keydown'
+const EVENT_KEY_UP = 'keyup'
 const EVENT_RESIZE = 'resize'
 
 export default {
@@ -167,6 +169,16 @@ export default {
       type: Number,
       default: 0.5
     },
+    useKeyboard: {
+      type: Boolean,
+      default: false
+    },
+    actionsKeyboard: {
+      type: Array,
+      default() {
+        return [(i) => i - 1, (i) => i + 1]
+      }
+    },
     data: Array,
     formatter: [String, Function],
     mergeFormatter: [String, Function],
@@ -183,7 +195,12 @@ export default {
     // 进度条样式
     processStyle: Object,
     // 组件背景样式
-    bgStyle: Object
+    bgStyle: Object,
+    piecewiseStyle: Object,
+    piecewiseActiveStyle: Object,
+    disabledDotStyle: [Array, Object, Function],
+    labelStyle: Object,
+    labelActiveStyle: Object
   },
   data() {
     return {
@@ -309,6 +326,50 @@ export default {
       sliderConBlocks.push(dot)
     }
 
+    // piecewise
+    const dotWrapLen = this.piecewiseDotWrap.length
+    const ulBlock = h('ul', {
+      staticClass: 'slider-piecewise'
+    }, this._l(this.piecewiseDotWrap, (item, i) => {
+      const piecewiseDot = []
+      if (this.piecewise) {
+        piecewiseDot.push(h('span', {
+          staticClass: 'piecewise-dot',
+          style: [this.piecewiseStyle, item.inRange ? this.piecewiseActiveStyle : null]
+        }))
+      }
+
+      const piecewiseLabel = []
+      if (this.piecewiseLabel) {
+        piecewiseLabel.push(h('span', {
+          staticClass: 'piecewise-label',
+          style: [this.labelStyle, item.inRange ? this.labelActiveStyle : null]
+        }, item.label))
+      }
+
+      return h('li', {
+        key: i,
+        staticClass: 'piecewise-item',
+        style: [this.piecewiseDotStyle, item.style]
+      }, [
+        this._t('piecewise', piecewiseDot , {
+          label: item.label,
+          index: i,
+          first: i === 0,
+          last: i === dotWrapLen - 1,
+          active: item.inRange
+        }),
+        this._t('label', piecewiseLabel, {
+          label: item.label,
+          index: i,
+          first: i === 0,
+          last: i === dotWrapLen - 1,
+          active: item.inRange
+        })
+      ])
+    }))
+    sliderConBlocks.push(ulBlock)
+
     // process
     const processBlock = h('div', {
       ref: 'process',
@@ -316,7 +377,10 @@ export default {
       class: {
         'slider-process-draggable': this.isRange && this.processDraggable
       },
-      style: this.processStyle
+      style: this.processStyle,
+      on: {
+        click: e => this.processClick(e)
+      }
     }, [
       h('div', {
         ref: 'mergedTooltip',
@@ -466,6 +530,15 @@ export default {
       }
       return (this.maximum - this.minimum) / this.step
     },
+    piecewiseDotStyle() {
+      return this.direction === 'vertical' ? {
+        width: `${this.width}px`,
+        height: `${this.width}px`
+      } : {
+        width: `${this.height}px`,
+        height: `${this.height}px`
+      }
+    },
     dotStyles() {
       return this.direction === 'vertical' ? {
         width: `${this.dotWidthVal}px`,
@@ -597,7 +670,7 @@ export default {
     }
   },
   methods: {
-    setValue (val, noCb, speed) {
+    setValue(val, noCb, speed) {
       if (isDiff(this.val, val)) {
         const resetVal = this.limitValue(val)
         this.val = this.isRange ? resetVal.concat() : resetVal
@@ -605,6 +678,23 @@ export default {
         this.syncValue(noCb)
       }
       this.$nextTick(() => this.setPosition(speed))
+    },
+    setIndex(val) {
+      if (isArray(val) && this.isRange) {
+        let value
+        if (this.data) {
+          value = [this.data[val[0]], this.data[val[1]]]
+        } else {
+          value = [this.getValueByIndex(val[0]), this.getValueByIndex(val[1])]
+        }
+        this.setValue(value)
+      } else {
+        val = this.getValueByIndex(val)
+        if (this.isRange) {
+          this.currentSlider = val > ((this.currentValue[1] - this.currentValue[0]) / 2 + this.currentValue[0]) ? 1 : 0
+        }
+        this.setCurrentValue(val)
+      }
     },
     wrapClick(e) {
       if (this.isDisabled || !this.clickable || this.processFlag || this.dragFlag) return false
@@ -628,6 +718,9 @@ export default {
         const timer = setInterval(this.handleOverlapTooltip, 16.7)
         setTimeout(() => window.clearInterval(timer), this.speed * 1000)
       }
+    },
+    processClick(e) {
+      if (this.fixed) e.stopPropagation()
     },
     syncValue(noCb) {
       let val = this.isRange ? this.val.concat() : this.val
@@ -911,6 +1004,57 @@ export default {
       }
       this.focusFlag = false
     },
+    handleKeydown(e) {
+      e.preventDefault()
+      e.stopPropagation()
+      if (!this.useKeyboard) {
+        return false
+      }
+      const keyCode = e.which || e.keyCode
+      switch (keyCode) {
+        case 37:
+        case 40:
+          this.keydownFlag = true
+          this.flag = true
+          this.changeFocusSlider(this.actionsKeyboard[0])
+          break
+        case 38:
+        case 39:
+          this.keydownFlag = true
+          this.flag = true
+          this.changeFocusSlider(this.actionsKeyboard[1])
+          break
+        default:
+          break
+      }
+    },
+    handleKeyup() {
+      if (this.keydownFlag) {
+        this.keydownFlag = false
+        this.flag = false
+      }
+    },
+    changeFocusSlider(fn) {
+      if (this.isRange) {
+        let arr = this.currentIndex.map((index, i) => {
+          if (i === this.focusSlider || this.fixed) {
+            const val = fn(index)
+            const range = this.fixed ? this.valueLimit[i] : [0, this.total]
+            if (val <= range[1] && val >= range[0]) {
+              return val
+            }
+          }
+          return index
+        })
+        if (arr[0] > arr[1]) {
+          this.focusSlider = this.focusSlider === 0 ? 1 : 0
+          arr = arr.reverse()
+        }
+        this.setIndex(arr)
+      } else {
+        this.setIndex(fn(this.currentIndex))
+      }
+    },
     bindEvents() {
       const me = this
       this.processStartFn = function(e) {
@@ -922,7 +1066,6 @@ export default {
       this.dot1StartFn = function(e) {
         me._start(e, 1)
       }
-
       if (isMobile) {
         addEvent(this.$refs.process, EVENT_TOUCH_START, this.processStartFn)
 
@@ -951,9 +1094,9 @@ export default {
           addEvent(this.$refs.dot, EVENT_MOUSE_DOWN, this._start)
         }
       }
-      // document.addEventListener('keydown', this.handleKeydown)
-      // document.addEventListener('keyup', this.handleKeyup)
-      addEvent(document, EVENT_RESIZE, this.refresh)
+      addEvent(document, EVENT_KEY_DOWN, this.handleKeydown)
+      addEvent(document, EVENT_KEY_UP, this.handleKeyup)
+      addEvent(window, EVENT_RESIZE, this.refresh)
       if (this.isRange && this.tooltipMerge) {
         addEvent(this.$refs.dot0, transitionEnd, this.handleOverlapTooltip)
         addEvent(this.$refs.dot1, transitionEnd, this.handleOverlapTooltip)
@@ -961,7 +1104,6 @@ export default {
     },
     unbindEvents() {
       if (isMobile) {
-        removeEvent(this.$refs.dot, EVENT_TOUCH_START, this._start)
         removeEvent(this.$refs.process, EVENT_TOUCH_START, this.processStartFn)
         removeEvent(document, EVENT_TOUCH_MOVE, this._move)
         removeEvent(document, EVENT_TOUCH_END, this._end)
@@ -989,7 +1131,9 @@ export default {
           removeEvent(this.$refs.dot, EVENT_MOUSE_DOWN, this._start)
         }
       }
-      removeEvent(document, EVENT_RESIZE, this.refresh)
+      removeEvent(document, EVENT_KEY_DOWN, this.handleKeydown)
+      removeEvent(document, EVENT_KEY_UP, this.handleKeyup)
+      removeEvent(window, EVENT_RESIZE, this.refresh)
       if (this.isRange && this.tooltipMerge) {
         removeEvent(this.$refs.dot0, transitionEnd, this.handleOverlapTooltip)
         removeEvent(this.$refs.dot1, transitionEnd, this.handleOverlapTooltip)
