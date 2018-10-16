@@ -1,5 +1,5 @@
 {
-  "name": "vue-range-slider",
+  "name": "vue-range-component",
   "version": "1.0.0",
   "description": "A range slider component based on vue (Vue滑块组件).",
   "main": "dist/vue-range-slider.js",
