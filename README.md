@@ -195,7 +195,7 @@ let components = {
 }
 ```
 
-2. In your template, encapsulate 'vue-range-slider' into the 'no-ssr' component to avoid redner the html on the server like this:
+2. In your template, encapsulate 'vue-range-slider' into the 'no-ssr' component to avoid render the html on the server like this:
 ```html
 <no-ssr>
     <vue-range-slider ref="slider"></vue-range-slider>
@@ -206,7 +206,7 @@ let components = {
 ```js
 if (process.browser) {
     // in older versions of nuxt, it's process.BROWSER_BUILD
-    let VueRangeSlider = require('vue-range-slider')
+    let VueRangeSlider = require('vue-range-component')
     components['vue-range-slider'] = VueRangeSlider
 }
 ```
