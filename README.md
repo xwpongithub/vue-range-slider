@@ -28,8 +28,8 @@ npm install vue-range-component --save
 #### Direct <script> include
 
 ```html
-  <link rel="stylesheet" href="https://unpkg.com/vue-range-component@1.0.0/dist/vue-range-slider.min.css">
-  <script src="https://unpkg.com/vue-range-component@1.0.0/dist/vue-range-slider.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/vue-range-component@1.0.2/dist/vue-range-slider.min.css">
+  <script src="https://unpkg.com/vue-range-component@1.0.2/dist/vue-range-slider.min.js"></script>
 ```
 
 #### Use in vue project
@@ -118,8 +118,6 @@ The solution:
 | label-active-style*      | Object | null  | The style of the label in the activated state. |
 | focus-style*     | Object[, Array(in range model), Function<Value, Index>] | null  | The style of the slider when it is focused. (Works only when `use-keyboard` is `true`) |
 
-prop*: [only supported in vue2]
-
 ### Function
 | Name        | Type           | Description                |
 | ----------- |:---------------| ---------------------------|
@@ -135,7 +133,7 @@ prop*: [only supported in vue2]
 ### Events
 | Name          | Type          | Description  |
 | --------------|:--------------|--------------|
-| callback      | Params: value[Number \| Array]  | values change when the callback function. (Changes in the direct assignment value will not trigger the callback, it is recommended to use `setValue` method) |
+| slide-end     | Params: value[Number \| Array]  | values change when the callback function. (Changes in the direct assignment value will not trigger the callback, it is recommended to use `setValue` method) |
 | drag-start    | Params: context[Object]| Drag the start event |
 | drag-end      | Params: context[Object]| Drag the end event |
 | on-keypress   | Params: value[Number \| Array]| keyboard event |
