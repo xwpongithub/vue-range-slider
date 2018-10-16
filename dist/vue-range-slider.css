@@ -188,7 +188,6 @@
   width: 0;
   height: 0;
   border: 5px solid transparent;
-  border: 6px solid transparent 0;
   border-top-color: inherit;
   -webkit-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
@@ -207,7 +206,6 @@
   width: 0;
   height: 0;
   border: 5px solid transparent;
-  border: 6px solid transparent 0;
   border-bottom-color: inherit;
   -webkit-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
@@ -226,7 +224,6 @@
   width: 0;
   height: 0;
   border: 5px solid transparent;
-  border: 6px solid transparent 0;
   border-left-color: inherit;
   -webkit-transform: translate(0, -50%);
           transform: translate(0, -50%);
@@ -245,7 +242,6 @@
   width: 0;
   height: 0;
   border: 5px solid transparent;
-  border: 6px solid transparent 0;
   border-right-color: inherit;
   -webkit-transform: translate(0, -50%);
           transform: translate(0, -50%);
