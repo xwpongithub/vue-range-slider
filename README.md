@@ -38,7 +38,7 @@ The solution:
 | dot-height  | Number        | value of `dot-size` prop | Height of sliders. If specified, overrides value of `dot-size` |
 | min         | Number        | 0        | The minimum numerical value that can be selected  |
 | max         | Number        | 100      | The maximum numerical value that can be selected  |
-| interval    | Number        | 1        | The gap between the values |
+| step   | Number        | 1        | The gap between the values |
 | show        | Boolean       | true     | Display of the component |
 | speed       | Number        | 0.5      | Transition time |
 | disabled    | Boolean[, Array<Boolean>(in range model)]  | false    | Whether to disable the component |
