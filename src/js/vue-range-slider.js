@@ -726,7 +726,7 @@ export default {
       let val = this.isRange ? this.val.concat() : this.val
       this.$emit('input', val)
       this.keydownFlag && this.$emit('on-keypress', val)
-      noCb || this.$emit('callback', val)
+      noCb || this.$emit('slide-end', val)
     },
     getPos(e) {
       this.realTime && this.getStaticData()
@@ -983,7 +983,7 @@ export default {
       }
       if (this.flag) {
         this.$emit('drag-end', this)
-        if (this.lazy && this.isDiff(this.val, this.value)) {
+        if (this.lazy && isDiff(this.val, this.value)) {
           this.syncValue()
         }
       } else {
