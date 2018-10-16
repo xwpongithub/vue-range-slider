@@ -7,6 +7,18 @@ A range slider component based on vue (Vue滑块组件).
 
 Can use the slider in vue2.x.
 
+## Live demos
+
+[Demo01](https://jsfiddle.net/xwpongithub/mtzpr21g/)
+
+[Demo02](https://jsfiddle.net/xwpongithub/njdwphrm/)
+
+[Demo03](https://jsfiddle.net/xwpongithub/q3xpkgcy/)
+
+[Demo04](https://jsfiddle.net/xwpongithub/0skre953/)
+
+[Demo05](https://jsfiddle.net/xwpongithub/vfgw1hks/)
+
 ## Todo
 
 - [x] Basis
