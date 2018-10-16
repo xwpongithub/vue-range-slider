@@ -11,7 +11,7 @@ var roundToDPR = function () {
   };
 }();
 var isMobile = function () {
-  var userAgentInfo = navigator.userAgent;
+  var userAgentInfo = navigator.userAgent.toLowerCase();
   var agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
   var flag = false;
 
@@ -101,6 +101,8 @@ var EVENT_MOUSE_DOWN = 'mousedown';
 var EVENT_MOUSE_MOVE = 'mousemove';
 var EVENT_MOUSE_UP = 'mouseup';
 var EVENT_MOUSE_LEAVE = 'mouseleave';
+var EVENT_KEY_DOWN = 'keydown';
+var EVENT_KEY_UP = 'keyup';
 var EVENT_RESIZE = 'resize';
 var Slider = {
   name: 'vue-range-slider',
@@ -253,6 +255,20 @@ var Slider = {
       type: Number,
       default: 0.5
     },
+    useKeyboard: {
+      type: Boolean,
+      default: false
+    },
+    actionsKeyboard: {
+      type: Array,
+      default: function _default() {
+        return [function (i) {
+          return i - 1;
+        }, function (i) {
+          return i + 1;
+        }];
+      }
+    },
     data: Array,
     formatter: [String, Function],
     mergeFormatter: [String, Function],
@@ -269,7 +285,12 @@ var Slider = {
     // 进度条样式
     processStyle: Object,
     // 组件背景样式
-    bgStyle: Object
+    bgStyle: Object,
+    piecewiseStyle: Object,
+    piecewiseActiveStyle: Object,
+    disabledDotStyle: [Array, Object, Function],
+    labelStyle: Object,
+    labelActiveStyle: Object
   },
   data: function data() {
     return {
@@ -358,8 +379,50 @@ var Slider = {
         value: this.val
       })])]);
       sliderConBlocks.push(dot);
-    } // process
+    } // piecewise
 
+
+    var dotWrapLen = this.piecewiseDotWrap.length;
+    var ulBlock = h('ul', {
+      staticClass: 'slider-piecewise'
+    }, this._l(this.piecewiseDotWrap, function (item, i) {
+      var piecewiseDot = [];
+
+      if (_this.piecewise) {
+        piecewiseDot.push(h('span', {
+          staticClass: 'piecewise-dot',
+          style: [_this.piecewiseStyle, item.inRange ? _this.piecewiseActiveStyle : null]
+        }));
+      }
+
+      var piecewiseLabel = [];
+
+      if (_this.piecewiseLabel) {
+        piecewiseLabel.push(h('span', {
+          staticClass: 'piecewise-label',
+          style: [_this.labelStyle, item.inRange ? _this.labelActiveStyle : null]
+        }, item.label));
+      }
+
+      return h('li', {
+        key: i,
+        staticClass: 'piecewise-item',
+        style: [_this.piecewiseDotStyle, item.style]
+      }, [_this._t('piecewise', piecewiseDot, {
+        label: item.label,
+        index: i,
+        first: i === 0,
+        last: i === dotWrapLen - 1,
+        active: item.inRange
+      }), _this._t('label', piecewiseLabel, {
+        label: item.label,
+        index: i,
+        first: i === 0,
+        last: i === dotWrapLen - 1,
+        active: item.inRange
+      })]);
+    }));
+    sliderConBlocks.push(ulBlock); // process
 
     var processBlock = h('div', {
       ref: 'process',
@@ -367,7 +430,12 @@ var Slider = {
       class: {
         'slider-process-draggable': this.isRange && this.processDraggable
       },
-      style: this.processStyle
+      style: this.processStyle,
+      on: {
+        click: function click(e) {
+          return _this.processClick(e);
+        }
+      }
     }, [h('div', {
       ref: 'mergedTooltip',
       staticClass: 'merged-tooltip slider-tooltip-wrap',
@@ -521,6 +589,15 @@ var Slider = {
 
       return (this.maximum - this.minimum) / this.step;
     },
+    piecewiseDotStyle: function piecewiseDotStyle() {
+      return this.direction === 'vertical' ? {
+        width: "".concat(this.width, "px"),
+        height: "".concat(this.width, "px")
+      } : {
+        width: "".concat(this.height, "px"),
+        height: "".concat(this.height, "px")
+      };
+    },
     dotStyles: function dotStyles() {
       return this.direction === 'vertical' ? {
         width: "".concat(this.dotWidthVal, "px"),
@@ -668,6 +745,27 @@ var Slider = {
         return _this2.setPosition(speed);
       });
     },
+    setIndex: function setIndex(val) {
+      if (isArray(val) && this.isRange) {
+        var value;
+
+        if (this.data) {
+          value = [this.data[val[0]], this.data[val[1]]];
+        } else {
+          value = [this.getValueByIndex(val[0]), this.getValueByIndex(val[1])];
+        }
+
+        this.setValue(value);
+      } else {
+        val = this.getValueByIndex(val);
+
+        if (this.isRange) {
+          this.currentSlider = val > (this.currentValue[1] - this.currentValue[0]) / 2 + this.currentValue[0] ? 1 : 0;
+        }
+
+        this.setCurrentValue(val);
+      }
+    },
     wrapClick: function wrapClick(e) {
       if (this.isDisabled || !this.clickable || this.processFlag || this.dragFlag) return false;
       var pos = this.getPos(e);
@@ -698,6 +796,9 @@ var Slider = {
           return window.clearInterval(timer);
         }, this.speed * 1000);
       }
+    },
+    processClick: function processClick(e) {
+      if (this.fixed) e.stopPropagation();
     },
     syncValue: function syncValue(noCb) {
       var val = this.isRange ? this.val.concat() : this.val;
@@ -1033,6 +1134,68 @@ var Slider = {
 
       this.focusFlag = false;
     },
+    handleKeydown: function handleKeydown(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (!this.useKeyboard) {
+        return false;
+      }
+
+      var keyCode = e.which || e.keyCode;
+
+      switch (keyCode) {
+        case 37:
+        case 40:
+          this.keydownFlag = true;
+          this.flag = true;
+          this.changeFocusSlider(this.actionsKeyboard[0]);
+          break;
+
+        case 38:
+        case 39:
+          this.keydownFlag = true;
+          this.flag = true;
+          this.changeFocusSlider(this.actionsKeyboard[1]);
+          break;
+
+        default:
+          break;
+      }
+    },
+    handleKeyup: function handleKeyup() {
+      if (this.keydownFlag) {
+        this.keydownFlag = false;
+        this.flag = false;
+      }
+    },
+    changeFocusSlider: function changeFocusSlider(fn) {
+      var _this5 = this;
+
+      if (this.isRange) {
+        var arr = this.currentIndex.map(function (index, i) {
+          if (i === _this5.focusSlider || _this5.fixed) {
+            var val = fn(index);
+            var range = _this5.fixed ? _this5.valueLimit[i] : [0, _this5.total];
+
+            if (val <= range[1] && val >= range[0]) {
+              return val;
+            }
+          }
+
+          return index;
+        });
+
+        if (arr[0] > arr[1]) {
+          this.focusSlider = this.focusSlider === 0 ? 1 : 0;
+          arr = arr.reverse();
+        }
+
+        this.setIndex(arr);
+      } else {
+        this.setIndex(fn(this.currentIndex));
+      }
+    },
     bindEvents: function bindEvents() {
       var me = this;
 
@@ -1073,11 +1236,11 @@ var Slider = {
         } else {
           addEvent(this.$refs.dot, EVENT_MOUSE_DOWN, this._start);
         }
-      } // document.addEventListener('keydown', this.handleKeydown)
-      // document.addEventListener('keyup', this.handleKeyup)
+      }
 
-
-      addEvent(document, EVENT_RESIZE, this.refresh);
+      addEvent(document, EVENT_KEY_DOWN, this.handleKeydown);
+      addEvent(document, EVENT_KEY_UP, this.handleKeyup);
+      addEvent(window, EVENT_RESIZE, this.refresh);
 
       if (this.isRange && this.tooltipMerge) {
         addEvent(this.$refs.dot0, transitionEnd, this.handleOverlapTooltip);
@@ -1086,7 +1249,6 @@ var Slider = {
     },
     unbindEvents: function unbindEvents() {
       if (isMobile) {
-        removeEvent(this.$refs.dot, EVENT_TOUCH_START, this._start);
         removeEvent(this.$refs.process, EVENT_TOUCH_START, this.processStartFn);
         removeEvent(document, EVENT_TOUCH_MOVE, this._move);
         removeEvent(document, EVENT_TOUCH_END, this._end);
@@ -1114,7 +1276,9 @@ var Slider = {
         }
       }
 
-      removeEvent(document, EVENT_RESIZE, this.refresh);
+      removeEvent(document, EVENT_KEY_DOWN, this.handleKeydown);
+      removeEvent(document, EVENT_KEY_UP, this.handleKeyup);
+      removeEvent(window, EVENT_RESIZE, this.refresh);
 
       if (this.isRange && this.tooltipMerge) {
         removeEvent(this.$refs.dot0, transitionEnd, this.handleOverlapTooltip);
@@ -1137,7 +1301,7 @@ var Slider = {
     }
   },
   mounted: function mounted() {
-    var _this5 = this;
+    var _this6 = this;
 
     this.isComponentExists = true;
 
@@ -1146,14 +1310,14 @@ var Slider = {
     }
 
     this.$nextTick(function () {
-      _this5.getStaticData();
+      _this6.getStaticData();
 
-      _this5.setValue(_this5.limitValue(_this5.value), true, _this5.startAnimation ? _this5.speed : 0);
+      _this6.setValue(_this6.limitValue(_this6.value), true, _this6.startAnimation ? _this6.speed : 0);
 
-      _this5.bindEvents();
+      _this6.bindEvents();
 
-      if (_this5.isRange && _this5.tooltipMerge && !_this5.startAnimation) {
-        _this5.handleOverlapTooltip();
+      if (_this6.isRange && _this6.tooltipMerge && !_this6.startAnimation) {
+        _this6.handleOverlapTooltip();
       }
     });
     this.isMounted = true;
