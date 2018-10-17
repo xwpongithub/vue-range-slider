@@ -3,6 +3,7 @@
  * (c) 2016-2018 xwpongithub
  * Released under the MIT License.
  */
+
 // Unsharp text [#166](https://github.com/NightCatSama/vue-slider-component/issues/166)
 var roundToDPR = function () {
   var r = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
