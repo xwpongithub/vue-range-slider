@@ -13,6 +13,7 @@ const babel = require('rollup-plugin-babel')
 const uglify = require('uglify-js')
 const zlib = require('zlib')
 const json = require('rollup-plugin-json')
+const header = require('gulp-header')
 const version = require('./package').version
 
 if (!fs.existsSync('dist')) {
@@ -28,7 +29,7 @@ const banner =
   ' * vue-range-slider v' + version + '\n' +
   ' * (c) 2016-' + new Date().getFullYear() + ' xwpongithub\n' +
   ' * Released under the MIT License.\n' +
-  ' */'
+  ' */\n'
 
 const builds = [{
   input: resolve('src/index.js'),
@@ -169,6 +170,11 @@ gulp.task('css', () => {
       // }),
       autoprefixer({browsers: ['iOS >= 7', 'Android >= 4.0', 'last 2 version', '> 1%', 'not ie <= 8']})
     ]))
+    .pipe(header('/**\n' +
+      ' * vue-range-slider v' + version + '\n' +
+      ' * (c) 2016-' + new Date().getFullYear() + ' xwpongithub\n' +
+      ' * Released under the MIT License.\n' +
+      ' */\n'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist')).on('end', () => {
        gulp.src('./dist/vue-range-slider.css')
