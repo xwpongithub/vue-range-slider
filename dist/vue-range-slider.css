@@ -29,17 +29,21 @@
 }
 .vue-range-slider.slider-component .slider .slider-dot {
   position: absolute;
-  border-radius: 50%;
-  background-color: #fff;
-  -webkit-box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,0.32);
-          box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,0.32);
   -webkit-transition: all 0s;
   transition: all 0s;
   will-change: transform;
   cursor: pointer;
   z-index: 5;
 }
-.vue-range-slider.slider-component .slider .slider-dot.slider-dot-focus {
+.vue-range-slider.slider-component .slider .slider-dot .slider-dot-handle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #fff;
+  -webkit-box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,0.32);
+          box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,0.32);
+}
+.vue-range-slider.slider-component .slider .slider-dot.slider-dot-focus .slider-dot-handle {
   -webkit-box-shadow: 0 0 2px 1px #3498db;
           box-shadow: 0 0 2px 1px #3498db;
 }

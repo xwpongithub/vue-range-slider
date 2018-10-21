@@ -325,8 +325,15 @@ var Slider = {
           'slider-dot-dragging': this.flag && this.currentSlider === 0,
           'slider-dot-disabled': !this.boolDisabled && this.disabledArray[0]
         }],
-        style: [this.dotStyles, !this.boolDisabled && this.disabledArray[0] ? this.disabledDotStyles[0] : null, this.sliderStyles[0], this.focusFlag && this.focusSlider === 0 ? this.focusStyles[0] : null]
-      }, [h('div', {
+        style: this.dotStyles
+      }, [this._t('dot', [h('div', {
+        staticClass: 'slider-dot-handle',
+        style: [!this.boolDisabled && this.disabledArray[0] ? this.disabledDotStyles[0] : null, this.sliderStyles[0], this.focusFlag && this.focusSlider === 0 ? this.focusStyles[0] : null]
+      })], {
+        index: 0,
+        value: this.val[0],
+        disabled: this.disabledArray[0]
+      }), h('div', {
         ref: 'tooltip0',
         staticClass: 'slider-tooltip-wrap',
         class: "slider-tooltip-".concat(this.tooltipDirection[0])
@@ -347,8 +354,15 @@ var Slider = {
           'slider-dot-dragging': this.flag && this.currentSlider === 1,
           'slider-dot-disabled': !this.boolDisabled && this.disabledArray[1]
         }],
-        style: [this.dotStyles, !this.boolDisabled && this.disabledArray[1] ? this.disabledDotStyles[1] : null, this.sliderStyles[1], this.focusFlag && this.focusSlider === 1 ? this.focusStyles[1] : null]
-      }, [h('div', {
+        style: this.dotStyles
+      }, [this._t('dot', [h('div', {
+        staticClass: 'slider-dot-handle',
+        style: [!this.boolDisabled && this.disabledArray[1] ? this.disabledDotStyles[1] : null, this.sliderStyles[1], this.focusFlag && this.focusSlider === 1 ? this.focusStyles[1] : null]
+      })], {
+        index: 1,
+        value: this.val[1],
+        disabled: this.disabledArray[1]
+      }), h('div', {
         ref: 'tooltip1',
         staticClass: 'slider-tooltip-wrap',
         class: "slider-tooltip-".concat(this.tooltipDirection[1])
@@ -369,8 +383,14 @@ var Slider = {
           'slider-dot-focus': this.focusFlag && this.focusSlider === 0,
           'slider-dot-dragging': this.flag && this.currentSlider === 0
         }],
-        style: [this.dotStyles, this.sliderStyles, this.focusFlag && this.focusSlider === 0 ? this.focusStyles : null]
-      }, [h('div', {
+        style: this.dotStyles
+      }, [this._t('dot', [h('div', {
+        staticClass: 'slider-dot-handle',
+        style: [this.sliderStyles, this.focusFlag && this.focusSlider === 0 ? this.focusStyles : null]
+      })], {
+        value: this.val,
+        disabled: this.boolDisabled
+      }), h('div', {
         staticClass: 'slider-tooltip-wrap',
         class: "slider-tooltip-".concat(this.tooltipDirection)
       }, [this._t('tooltip', [h('span', {
@@ -635,6 +655,24 @@ var Slider = {
         return this.focusStyle(this.val, this.currentIndex);
       } else {
         return this.isRange ? [this.focusStyle, this.focusStyle] : this.focusStyle;
+      }
+    },
+    disabledDotStyles: function disabledDotStyles() {
+      var disabledStyle = this.disabledDotStyle;
+
+      if (isArray(disabledStyle)) {
+        return disabledStyle;
+      } else if (typeof disabledStyle === 'function') {
+        var style = disabledStyle(this.val, this.currentIndex);
+        return isArray(style) ? style : [style, style];
+      } else if (disabledStyle) {
+        return [disabledStyle, disabledStyle];
+      } else {
+        return [{
+          backgroundColor: '#ccc'
+        }, {
+          backgroundColor: '#ccc'
+        }];
       }
     },
     elemStyles: function elemStyles() {
@@ -1129,7 +1167,7 @@ var Slider = {
     blurSlider: function blurSlider(e) {
       var dot = this.isRange ? this.$refs["dot".concat(this.focusSlider)] : this.$refs.dot;
 
-      if (!dot || dot === e.target) {
+      if (!dot || dot === e.target || dot.contains(e.target)) {
         return false;
       }
 
