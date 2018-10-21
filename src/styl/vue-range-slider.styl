@@ -18,15 +18,19 @@
         z-index: 2
       .slider-dot
         position: absolute
-        border-radius: 50%
-        background-color: #fff
-        box-shadow: 0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32)
         transition: all 0s
         will-change: transform
         cursor: pointer
         z-index: 5
+        .slider-dot-handle
+          width: 100%
+          height: 100%
+          border-radius: 50%
+          background-color: #fff
+          box-shadow: 0.5px 0.5px 2px 1px rgba(0, 0, 0, 0.32)
         &.slider-dot-focus
-          box-shadow: 0 0 2px 1px #3498db
+          .slider-dot-handle
+            box-shadow: 0 0 2px 1px #3498db
         &.slider-dot-dragging
           z-index: 5
         &.slider-dot-disabled

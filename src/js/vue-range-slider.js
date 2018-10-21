@@ -233,12 +233,22 @@ export default {
           'slider-dot-dragging': this.flag && this.currentSlider === 0,
           'slider-dot-disabled': !this.boolDisabled && this.disabledArray[0]
         }],
-        style: [
-          this.dotStyles,
-          (!this.boolDisabled && this.disabledArray[0]) ? this.disabledDotStyles[0] : null,
-          this.sliderStyles[0], this.focusFlag && this.focusSlider === 0 ? this.focusStyles[0] : null
-        ]
+        style: this.dotStyles
       }, [
+        this._t('dot', [
+          h('div', {
+            staticClass: 'slider-dot-handle',
+            style: [
+              (!this.boolDisabled && this.disabledArray[0]) ? this.disabledDotStyles[0] : null,
+              this.sliderStyles[0],
+              this.focusFlag && this.focusSlider === 0 ? this.focusStyles[0]: null
+            ]
+          })
+        ], {
+          index: 0,
+          value: this.val[0],
+          disabled: this.disabledArray[0]
+        }),
         h('div', {
           ref: 'tooltip0',
           staticClass: 'slider-tooltip-wrap',
@@ -266,12 +276,22 @@ export default {
           'slider-dot-dragging': this.flag && this.currentSlider === 1,
           'slider-dot-disabled': !this.boolDisabled && this.disabledArray[1]
         }],
-        style: [
-          this.dotStyles,
-          (!this.boolDisabled && this.disabledArray[1]) ? this.disabledDotStyles[1] : null,
-          this.sliderStyles[1], this.focusFlag && this.focusSlider === 1 ? this.focusStyles[1] : null
-        ]
+        style: this.dotStyles
       }, [
+        this._t('dot', [
+          h('div', {
+            staticClass: 'slider-dot-handle',
+            style: [
+              (!this.boolDisabled && this.disabledArray[1]) ? this.disabledDotStyles[1] : null,
+              this.sliderStyles[1],
+              this.focusFlag && this.focusSlider === 1 ? this.focusStyles[1]: null
+            ]
+          })
+        ], {
+          index: 1,
+          value: this.val[1],
+          disabled: this.disabledArray[1]
+        }),
         h('div', {
           ref: 'tooltip1',
           staticClass: 'slider-tooltip-wrap',
@@ -301,12 +321,20 @@ export default {
             'slider-dot-dragging': this.flag && this.currentSlider === 0
           }
         ],
-        style: [
-          this.dotStyles,
-          this.sliderStyles,
-          this.focusFlag && this.focusSlider === 0 ? this.focusStyles : null
-        ]
+        style: this.dotStyles
       }, [
+        this._t('dot', [
+          h('div', {
+            staticClass: 'slider-dot-handle',
+            style: [
+              this.sliderStyles,
+              this.focusFlag && this.focusSlider === 0 ? this.focusStyles : null
+            ]
+          })
+        ], {
+          value: this.val,
+          disabled: this.boolDisabled
+        }),
         h('div', {
           staticClass: 'slider-tooltip-wrap',
           class: `slider-tooltip-${this.tooltipDirection}`
@@ -577,6 +605,23 @@ export default {
         return this.isRange ? [this.focusStyle, this.focusStyle] : this.focusStyle
       }
     },
+    disabledDotStyles() {
+      const disabledStyle = this.disabledDotStyle
+      if (isArray(disabledStyle)) {
+        return disabledStyle
+      } else if (typeof disabledStyle === 'function') {
+        const style = disabledStyle(this.val, this.currentIndex)
+        return isArray(style) ? style : [style, style]
+      } else if (disabledStyle) {
+        return [disabledStyle, disabledStyle]
+      } else {
+        return [{
+          backgroundColor: '#ccc'
+        }, {
+          backgroundColor: '#ccc'
+        }]
+      }
+    },
     elemStyles() {
       return this.direction === 'vertical' ? {
         width: `${this.width}px`,
@@ -604,7 +649,7 @@ export default {
     tooltipStatus() {
       return this.tooltip === 'hover' && this.flag ? 'slider-always' : this.tooltip ? `slider-${this.tooltip}` : ''
     },
-    tooltipClass () {
+    tooltipClass() {
       return [`slider-tooltip-${this.tooltipDirection}`, 'slider-tooltip']
     },
     minimum() {
@@ -650,7 +695,7 @@ export default {
     isDisabled() {
       return this.eventType === 'none' ? true : this.boolDisabled
     },
-    isFixed () {
+    isFixed() {
       return this.fixed || this.minRange
     },
     position() {
@@ -999,7 +1044,7 @@ export default {
     },
     blurSlider(e) {
       const dot = this.isRange ? this.$refs[`dot${this.focusSlider}`] : this.$refs.dot
-      if (!dot || dot === e.target) {
+      if (!dot || dot === e.target || dot.contains(e.target)) {
         return false
       }
       this.focusFlag = false
