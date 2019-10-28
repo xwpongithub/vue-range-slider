@@ -21,7 +21,7 @@
     "url": "git@github.com:xwpongithub/vue-range-slider.git"
   },
   "scripts": {
-    "build": "gulp"
+    "build": "npx gulp"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",

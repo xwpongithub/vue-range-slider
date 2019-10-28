@@ -116,7 +116,7 @@ The solution:
 | max-range*  | Number       | null    | Maximum range in range mode
 | process-draggable*  | Boolean       | false    | Whether the process bar is draggable (valid only in range mode). |
 | formatter*        | String,Function | null   | Formatting of a tooltip's values, for example: `formatter='¥{value}'` or `` formatter: (v) => `¥${v}` ``. |
-| use-keyboard*        | Boolean | false   | Whether to open the keyboard control (Only support the arrow keys). |
+| use-keyboard*        | Boolean | false   | Whether to open the keyboard control (only supports the arrow keys). |
 | actions-keyboard*        | Array | `[(i) => i - 1, (i) => i + 1]`  | In the keyboard control mode, reduce(←, ↓) and increase(→, ↑) the calling method.(`i` is the index value) |
 | bg-style*         | Object | null  | The style of the background. |
 | slider-style*     | Object[, Array(in range model), Function<Value, Index>] | null  | The style of the slider. |

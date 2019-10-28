@@ -1,6 +1,6 @@
 /*!
  * vue-range-slider v1.0.3
- * (c) 2016-2018 xwpongithub
+ * (c) 2016-2019 xwpongithub
  * Released under the MIT License.
  */
 
@@ -117,42 +117,42 @@
       // 是否显示组件
       show: {
         type: Boolean,
-        default: true
+        "default": true
       },
       // 值
       value: {
         type: [String, Number, Array, Object],
-        default: 0
+        "default": 0
       },
       // 最小值
       min: {
         type: Number,
-        default: 0
+        "default": 0
       },
       // 最大值
       max: {
         type: Number,
-        default: 100
+        "default": 100
       },
       // 分段间隔
       step: {
         type: Number,
-        default: 1
+        "default": 1
       },
       // 组件宽度
       width: {
         type: [Number, String],
-        default: 'auto'
+        "default": 'auto'
       },
       // 组件高度
       height: {
         type: [Number, String],
-        default: 6
+        "default": 6
       },
       // 滑块大小
       dotSize: {
         type: Number,
-        default: 16
+        "default": 16
       },
       dotWidth: {
         type: Number,
@@ -164,22 +164,22 @@
       },
       stopPropagation: {
         type: Boolean,
-        default: false
+        "default": false
       },
       // 事件类型
       eventType: {
         type: String,
-        default: 'auto'
+        "default": 'auto'
       },
       // 是否实时计算组件布局
       realTime: {
         type: Boolean,
-        default: false
+        "default": false
       },
       // 是否显示工具提示
       tooltip: {
         type: [String, Boolean],
-        default: 'always',
+        "default": 'always',
         validator: function validator(val) {
           return ['hover', 'always'].indexOf(val) > -1;
         }
@@ -187,7 +187,7 @@
       // 组件方向
       direction: {
         type: String,
-        default: 'horizontal',
+        "default": 'horizontal',
         validator: function validator(val) {
           return ['horizontal', 'vertical'].indexOf(val) > -1;
         }
@@ -195,40 +195,40 @@
       // 是否反向组件
       reverse: {
         type: Boolean,
-        default: false
+        "default": false
       },
       // 是否不可用
       disabled: {
         type: [Boolean, Array],
-        default: false
+        "default": false
       },
       piecewiseLabel: {
         type: Boolean,
-        default: false
+        "default": false
       },
       piecewise: {
         type: Boolean,
-        default: false
+        "default": false
       },
       // 进度条是否可拖拽（只限范围模式）
       processDraggable: {
         type: Boolean,
-        default: false
+        "default": false
       },
       // 是否可点击的
       clickable: {
         type: Boolean,
-        default: true
+        "default": true
       },
       // 是否固定距离
       fixed: {
         type: Boolean,
-        default: false
+        "default": false
       },
       // 是否为开发环境（打印错误）
       debug: {
         type: Boolean,
-        default: true
+        "default": true
       },
       // 最小范围
       minRange: {
@@ -240,35 +240,35 @@
       },
       tooltipMerge: {
         type: Boolean,
-        default: true
+        "default": true
       },
       // 是否开启初始动画
       startAnimation: {
         type: Boolean,
-        default: false
+        "default": false
       },
       // 是否在拖拽结束后同步值
       lazy: {
         type: Boolean,
-        default: false
+        "default": false
       },
       // 在范围模式中，是否允许交叉
       enableCross: {
         type: Boolean,
-        default: true
+        "default": true
       },
       // 动画速度比
       speed: {
         type: Number,
-        default: 0.5
+        "default": 0.5
       },
       useKeyboard: {
         type: Boolean,
-        default: false
+        "default": false
       },
       actionsKeyboard: {
         type: Array,
-        default: function _default() {
+        "default": function _default() {
           return [function (i) {
             return i - 1;
           }, function (i) {
@@ -326,7 +326,7 @@
         var dot0 = h('div', {
           ref: 'dot0',
           staticClass: 'slider-dot',
-          class: [this.tooltipStatus, {
+          "class": [this.tooltipStatus, {
             'slider-dot-focus': this.focusFlag && this.focusSlider === 0,
             'slider-dot-dragging': this.flag && this.currentSlider === 0,
             'slider-dot-disabled': !this.boolDisabled && this.disabledArray[0]
@@ -342,7 +342,7 @@
         }), h('div', {
           ref: 'tooltip0',
           staticClass: 'slider-tooltip-wrap',
-          class: "slider-tooltip-".concat(this.tooltipDirection[0])
+          "class": "slider-tooltip-".concat(this.tooltipDirection[0])
         }, [this._t('tooltip', [h('span', {
           staticClass: 'slider-tooltip',
           style: this.tooltipStyles[0]
@@ -355,7 +355,7 @@
         var dot1 = h('div', {
           ref: 'dot1',
           staticClass: 'slider-dot',
-          class: [this.tooltipStatus, {
+          "class": [this.tooltipStatus, {
             'slider-dot-focus': this.focusFlag && this.focusSlider === 1,
             'slider-dot-dragging': this.flag && this.currentSlider === 1,
             'slider-dot-disabled': !this.boolDisabled && this.disabledArray[1]
@@ -371,7 +371,7 @@
         }), h('div', {
           ref: 'tooltip1',
           staticClass: 'slider-tooltip-wrap',
-          class: "slider-tooltip-".concat(this.tooltipDirection[1])
+          "class": "slider-tooltip-".concat(this.tooltipDirection[1])
         }, [this._t('tooltip', [h('span', {
           staticClass: 'slider-tooltip',
           style: this.tooltipStyles[1]
@@ -385,7 +385,7 @@
         var dot = h('div', {
           ref: 'dot',
           staticClass: 'slider-dot',
-          class: [this.tooltipStatus, {
+          "class": [this.tooltipStatus, {
             'slider-dot-focus': this.focusFlag && this.focusSlider === 0,
             'slider-dot-dragging': this.flag && this.currentSlider === 0
           }],
@@ -398,7 +398,7 @@
           disabled: this.boolDisabled
         }), h('div', {
           staticClass: 'slider-tooltip-wrap',
-          class: "slider-tooltip-".concat(this.tooltipDirection)
+          "class": "slider-tooltip-".concat(this.tooltipDirection)
         }, [this._t('tooltip', [h('span', {
           staticClass: 'slider-tooltip',
           style: this.tooltipStyles
@@ -454,7 +454,7 @@
       var processBlock = h('div', {
         ref: 'process',
         staticClass: 'slider-process',
-        class: {
+        "class": {
           'slider-process-draggable': this.isRange && this.processDraggable
         },
         style: this.processStyle,
@@ -466,7 +466,7 @@
       }, [h('div', {
         ref: 'mergedTooltip',
         staticClass: 'merged-tooltip slider-tooltip-wrap',
-        class: "slider-tooltip-".concat(this.isRange ? this.tooltipDirection[0] : this.tooltipDirection),
+        "class": "slider-tooltip-".concat(this.isRange ? this.tooltipDirection[0] : this.tooltipDirection),
         style: this.tooltipMergedPosition
       }, [this._t('tooltip', [h('span', {
         staticClass: 'slider-tooltip',
@@ -499,7 +499,7 @@
       return h('div', {
         ref: 'wrap',
         staticClass: 'vue-range-slider slider-component',
-        class: [this.flowDirection, this.disabledClass, this.stateClass, {
+        "class": [this.flowDirection, this.disabledClass, this.stateClass, {
           'slider-has-label': this.piecewiseLabel
         }],
         style: [this.wrapStyles, this.boolDisabled ? this.disabledStyle : null],
@@ -1180,9 +1180,6 @@
         this.focusFlag = false;
       },
       handleKeydown: function handleKeydown(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
         if (!this.useKeyboard) {
           return false;
         }
@@ -1192,6 +1189,8 @@
         switch (keyCode) {
           case 37:
           case 40:
+            e.preventDefault(); // e.stopPropagation()
+
             this.keydownFlag = true;
             this.flag = true;
             this.changeFocusSlider(this.actionsKeyboard[0]);
@@ -1199,6 +1198,8 @@
 
           case 38:
           case 39:
+            e.preventDefault(); // e.stopPropagation()
+
             this.keydownFlag = true;
             this.flag = true;
             this.changeFocusSlider(this.actionsKeyboard[1]);
