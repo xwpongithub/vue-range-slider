@@ -1003,7 +1003,7 @@ export default {
       this.$emit('drag-start', this)
     },
     _move(e) {
-      e.preventDefault()
+      // e.preventDefault() // NOTE: COMMENTED, BREAKS SELECTING THINGS ON PAGE
       if (this.stopPropagation) {
         e.stopPropagation()
       }

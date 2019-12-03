@@ -20,6 +20,13 @@
     "type": "git",
     "url": "git@github.com:xwpongithub/vue-range-slider.git"
   },
+  "browserslist": [
+    "iOS >= 7",
+    "Android >= 4.0",
+    "last 2 versions",
+    "> 1%",
+    "not ie <= 8"
+  ],
   "scripts": {
     "build": "npx gulp"
   },
