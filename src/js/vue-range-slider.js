@@ -1003,7 +1003,7 @@ export default {
       this.$emit('drag-start', this)
     },
     _move(e) {
-      e.preventDefault()
+      // e.preventDefault() // NOTE: COMMENTED, BREAKS SELECTING THINGS ON PAGE
       if (this.stopPropagation) {
         e.stopPropagation()
       }
@@ -1050,8 +1050,6 @@ export default {
       this.focusFlag = false
     },
     handleKeydown(e) {
-      e.preventDefault()
-      e.stopPropagation()
       if (!this.useKeyboard) {
         return false
       }
@@ -1059,12 +1057,16 @@ export default {
       switch (keyCode) {
         case 37:
         case 40:
+          e.preventDefault()
+          // e.stopPropagation()
           this.keydownFlag = true
           this.flag = true
           this.changeFocusSlider(this.actionsKeyboard[0])
           break
         case 38:
         case 39:
+          e.preventDefault()
+          // e.stopPropagation()
           this.keydownFlag = true
           this.flag = true
           this.changeFocusSlider(this.actionsKeyboard[1])

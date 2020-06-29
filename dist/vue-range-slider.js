@@ -1,6 +1,6 @@
 /*!
  * vue-range-slider v1.0.3
- * (c) 2016-2018 xwpongithub
+ * (c) 2016-2019 xwpongithub
  * Released under the MIT License.
  */
 
@@ -1122,8 +1122,7 @@
         this.$emit('drag-start', this);
       },
       _move: function _move(e) {
-        e.preventDefault();
-
+        // e.preventDefault() // NOTE: COMMENTED, BREAKS SELECTING THINGS ON PAGE
         if (this.stopPropagation) {
           e.stopPropagation();
         }
@@ -1180,9 +1179,6 @@
         this.focusFlag = false;
       },
       handleKeydown: function handleKeydown(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
         if (!this.useKeyboard) {
           return false;
         }
@@ -1192,6 +1188,8 @@
         switch (keyCode) {
           case 37:
           case 40:
+            e.preventDefault(); // e.stopPropagation()
+
             this.keydownFlag = true;
             this.flag = true;
             this.changeFocusSlider(this.actionsKeyboard[0]);
@@ -1199,6 +1197,8 @@
 
           case 38:
           case 39:
+            e.preventDefault(); // e.stopPropagation()
+
             this.keydownFlag = true;
             this.flag = true;
             this.changeFocusSlider(this.actionsKeyboard[1]);

@@ -168,7 +168,7 @@ gulp.task('css', () => {
       //   unitPrecision: 37.5,
       //   propList: ['*']
       // }),
-      autoprefixer({browsers: ['iOS >= 7', 'Android >= 4.0', 'last 2 version', '> 1%', 'not ie <= 8']})
+      autoprefixer()
     ]))
     .pipe(header('/**\n' +
       ' * vue-range-slider v' + version + '\n' +
