@@ -50,6 +50,7 @@
     "rollup-plugin-json": "^3.1.0",
     "stylus": "^0.54.5",
     "uglify-js": "^3.4.9",
-    "zlib": "^1.0.5"
+    "zlib": "^1.0.5",
+    "kind-of": ">=6.0.3"
   }
 }
