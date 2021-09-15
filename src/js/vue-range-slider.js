@@ -1004,8 +1004,14 @@ export default {
     },
     _move(e) {
       // e.preventDefault() // NOTE: COMMENTED, BREAKS SELECTING THINGS ON PAGE
-      if (this.stopPropagation) {
-        e.stopPropagation()
+      if (this.flag && this.dragFlag)
+      {
+        e.preventDefault();
+
+        if (this.stopPropagation)
+        {
+          e.stopPropagation();
+        }
       }
       if (!this.flag) return false
       if (e.targetTouches && e.targetTouches[0]) e = e.targetTouches[0]
